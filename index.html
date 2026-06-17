@@ -5,18 +5,18 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 <title>Angeles City Jeepney Routes</title>
 <meta name="description" content="Interactive map of all color-coded jeepney routes in Angeles City, Pampanga">
-<meta name="theme-color" content="#1a1a2e">
+<meta name="theme-color" content="#ffffff">
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
 <style>
 :root {
-  --bg: #0f0f1a;
-  --surface: #1a1a2e;
-  --surface2: #222240;
-  --amber: #f0a500;
-  --amber-glow: #f0a50044;
-  --text: #f0f0f0;
-  --text-dim: #aaa;
-  --text-muted: #777;
+  --bg: #f5f5f7;
+  --surface: #ffffff;
+  --surface2: #e8e8ed;
+  --amber: #d48400;
+  --amber-glow: #f0a50022;
+  --text: #1d1d1f;
+  --text-dim: #666;
+  --text-muted: #999;
   --radius: 14px;
   --font-xl: clamp(1.4rem, 3.5vw, 2rem);
   --font-lg: clamp(1rem, 2.5vw, 1.3rem);
@@ -38,8 +38,9 @@ body {
 
 /* ── HEADER ── */
 .header {
-  background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+  background: linear-gradient(135deg, #ffffff 0%, #f0f0f5 100%);
   border-bottom: 2px solid var(--amber);
+  box-shadow: 0 1px 3px rgba(0,0,0,0.08);
   padding: 0.7rem 1rem;
   text-align: center;
   z-index: 1000;
@@ -70,11 +71,10 @@ body {
   background: var(--bg);
 }
 
-/* ── DARK MAP TILES OVERRIDE ── */
-.leaflet-tile { filter: brightness(0.6) invert(1) contrast(3) hue-rotate(200deg) saturate(0.3) brightness(0.7); }
-.leaflet-container { background: #0f0f1a; }
-.leaflet-control-zoom a { background: var(--surface) !important; color: var(--text) !important; border-color: #ffffff15 !important; }
-.leaflet-control-attribution { background: rgba(15,15,26,0.8) !important; color: var(--text-muted) !important; font-size: 0.65rem !important; }
+/* ── MAP TILES ── */
+.leaflet-container { background: #f5f5f7; }
+.leaflet-control-zoom a { background: var(--surface) !important; color: var(--text) !important; border-color: #ddd !important; }
+.leaflet-control-attribution { background: rgba(255,255,255,0.85) !important; color: var(--text-muted) !important; font-size: 0.65rem !important; }
 .leaflet-control-attribution a { color: var(--amber) !important; }
 
 /* ── LEGEND PANEL ── */
@@ -83,8 +83,9 @@ body {
   top: 10px;
   right: 10px;
   z-index: 999;
-  background: rgba(26,26,46,0.95);
-  border: 1px solid #ffffff15;
+  background: rgba(255,255,255,0.92);
+  border: 1px solid #ddd;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.1);
   border-radius: var(--radius);
   padding: 0.6rem 0.8rem;
   max-height: calc(100% - 80px);
@@ -116,7 +117,7 @@ body {
   height: 5px;
   border-radius: 99px;
   flex-shrink: 0;
-  border: 1px solid #ffffff20;
+  border: 1px solid #ccc;
 }
 .legend-label {
   font-size: var(--font-sm);
@@ -135,12 +136,13 @@ body {
   z-index: 1000;
   background: var(--surface);
   color: var(--amber);
-  border: 1px solid var(--amber);
+  border: 2px solid var(--amber);
   border-radius: 99px;
   padding: 0.5rem 1rem;
   font-size: var(--font-sm);
   font-weight: 700;
   cursor: pointer;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.12);
 }
 
 /* ── FOOTER ── */
@@ -149,7 +151,7 @@ body {
   padding: 0.5rem 1rem;
   font-size: var(--font-sm);
   color: var(--text-muted);
-  border-top: 1px solid #ffffff10;
+  border-top: 1px solid #ddd;
   flex-shrink: 0;
 }
 .footer a { color: var(--amber); text-decoration: none; }

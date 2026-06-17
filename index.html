@@ -38,6 +38,7 @@ body {
 
 /* ── HEADER ── */
 .header {
+  position: relative;
   background: linear-gradient(135deg, #ffffff 0%, #f0f0f5 100%);
   border-bottom: 2px solid var(--amber);
   box-shadow: 0 1px 3px rgba(0,0,0,0.08);
@@ -104,28 +105,26 @@ body {
 }
 [data-theme="dark"] .legend-swatch { border-color: #ffffff20; }
 [data-theme="dark"] .footer { border-top-color: #ffffff10; }
-[data-theme="dark"] .theme-btn { border-color: #ffffff20; }
-[data-theme="dark"] .theme-btn:hover { background: var(--surface2); }
 
 /* ── THEME TOGGLE BUTTON ── */
 .theme-btn {
   position: absolute;
-  top: 10px;
-  left: 10px;
-  z-index: 1000;
-  background: var(--surface);
-  border: 1px solid #ddd;
+  top: 50%;
+  right: 0.8rem;
+  transform: translateY(-50%);
+  background: none;
+  border: 1px solid var(--border-color, #ddd);
   border-radius: 99px;
-  width: 38px;
-  height: 38px;
-  font-size: 1.2rem;
+  width: 36px;
+  height: 36px;
+  font-size: 1.1rem;
   cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
   transition: background 0.2s;
   line-height: 1;
+  color: var(--text);
 }
 .theme-btn:hover { background: var(--surface2); }
 
@@ -229,14 +228,12 @@ body {
 <header class="header">
   <h1>🚐 Angeles City Jeepney Routes</h1>
   <div class="subtitle">Color-coded routes · Tap any line for details · Toggle routes in legend</div>
+  <button class="theme-btn" id="themeToggle" onclick="toggleTheme()" title="Toggle dark/light mode">🌙</button>
 </header>
 
 <!-- MAP -->
 <div class="map-wrap">
   <div id="map"></div>
-
-  <!-- Theme toggle -->
-  <button class="theme-btn" id="themeToggle" onclick="toggleTheme()" title="Toggle dark/light mode">🌙</button>
 
   <!-- Mobile toggle -->
   <button class="legend-toggle" id="legendToggle" onclick="toggleLegend()">📍 Routes ▾</button>

@@ -72,10 +72,62 @@ body {
 }
 
 /* ── MAP TILES ── */
-.leaflet-container { background: #f5f5f7; }
-.leaflet-control-zoom a { background: var(--surface) !important; color: var(--text) !important; border-color: #ddd !important; }
-.leaflet-control-attribution { background: rgba(255,255,255,0.85) !important; color: var(--text-muted) !important; font-size: 0.65rem !important; }
+.leaflet-container { background: var(--bg); }
+.leaflet-control-zoom a { background: var(--surface) !important; color: var(--text) !important; border-color: var(--border-color, #ddd) !important; }
+.leaflet-control-attribution { background: var(--attrib-bg, rgba(255,255,255,0.85)) !important; color: var(--text-muted) !important; font-size: 0.65rem !important; }
 .leaflet-control-attribution a { color: var(--amber) !important; }
+
+/* ── DARK MODE ── */
+[data-theme="dark"] {
+  --bg: #0f0f1a;
+  --surface: #1a1a2e;
+  --surface2: #222240;
+  --amber: #f0a500;
+  --amber-glow: #f0a50044;
+  --text: #f0f0f0;
+  --text-dim: #aaa;
+  --text-muted: #777;
+  --border-color: #ffffff15;
+  --attrib-bg: rgba(15,15,26,0.8);
+}
+[data-theme="dark"] .header {
+  background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+  box-shadow: none;
+}
+[data-theme="dark"] .leaflet-tile {
+  filter: brightness(0.6) invert(1) contrast(3) hue-rotate(200deg) saturate(0.3) brightness(0.7);
+}
+[data-theme="dark"] .legend-panel {
+  background: rgba(26,26,46,0.95);
+  border-color: #ffffff15;
+  box-shadow: none;
+}
+[data-theme="dark"] .legend-swatch { border-color: #ffffff20; }
+[data-theme="dark"] .footer { border-top-color: #ffffff10; }
+[data-theme="dark"] .theme-btn { border-color: #ffffff20; }
+[data-theme="dark"] .theme-btn:hover { background: var(--surface2); }
+
+/* ── THEME TOGGLE BUTTON ── */
+.theme-btn {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  z-index: 1000;
+  background: var(--surface);
+  border: 1px solid #ddd;
+  border-radius: 99px;
+  width: 38px;
+  height: 38px;
+  font-size: 1.2rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  transition: background 0.2s;
+  line-height: 1;
+}
+.theme-btn:hover { background: var(--surface2); }
 
 /* ── LEGEND PANEL ── */
 .legend-panel {
@@ -83,8 +135,8 @@ body {
   top: 10px;
   right: 10px;
   z-index: 999;
-  background: rgba(255,255,255,0.92);
-  border: 1px solid #ddd;
+  background: var(--surface);
+  border: 1px solid var(--border-color, #ddd);
   box-shadow: 0 2px 12px rgba(0,0,0,0.1);
   border-radius: var(--radius);
   padding: 0.6rem 0.8rem;
@@ -117,7 +169,7 @@ body {
   height: 5px;
   border-radius: 99px;
   flex-shrink: 0;
-  border: 1px solid #ccc;
+  border: 1px solid var(--border-color, #ccc);
 }
 .legend-label {
   font-size: var(--font-sm);
@@ -151,7 +203,7 @@ body {
   padding: 0.5rem 1rem;
   font-size: var(--font-sm);
   color: var(--text-muted);
-  border-top: 1px solid #ddd;
+  border-top: 1px solid var(--border-color, #ddd);
   flex-shrink: 0;
 }
 .footer a { color: var(--amber); text-decoration: none; }
@@ -182,6 +234,9 @@ body {
 <!-- MAP -->
 <div class="map-wrap">
   <div id="map"></div>
+
+  <!-- Theme toggle -->
+  <button class="theme-btn" id="themeToggle" onclick="toggleTheme()" title="Toggle dark/light mode">🌙</button>
 
   <!-- Mobile toggle -->
   <button class="legend-toggle" id="legendToggle" onclick="toggleLegend()">📍 Routes ▾</button>
@@ -347,6 +402,21 @@ function toggleLegend() {
   panel.classList.toggle('open');
   btn.textContent = panel.classList.contains('open') ? '📍 Routes ▴' : '📍 Routes ▾';
 }
+
+// ═══════════ THEME TOGGLE ═══════════
+const themeToggle = document.getElementById('themeToggle');
+function setTheme(dark) {
+  document.documentElement.setAttribute('data-theme', dark ? 'dark' : 'light');
+  document.querySelector('meta[name="theme-color"]').content = dark ? '#1a1a2e' : '#ffffff';
+  themeToggle.textContent = dark ? '☀️' : '🌙';
+  localStorage.setItem('jeepney-map-theme', dark ? 'dark' : 'light');
+}
+function toggleTheme() {
+  setTheme(document.documentElement.getAttribute('data-theme') !== 'dark');
+}
+// Load saved preference
+const saved = localStorage.getItem('jeepney-map-theme');
+setTheme(saved === 'dark');
 
 // ═══════════ FIT BOUNDS ═══════════
 const allCoords = ROUTES.flatMap(r => r.path);
